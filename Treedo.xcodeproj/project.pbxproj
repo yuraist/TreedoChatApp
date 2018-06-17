@@ -82,32 +82,48 @@
 		BE0A776020CFDFC9002372DE /* Treedo */ = {
 			isa = PBXGroup;
 			children = (
+				BE0A776820CFDFCB002372DE /* Assets.xcassets */,
+				BE4FD64920D6549900FF4500 /* Application Delegate */,
 				BE0A777620D03A58002372DE /* Supporting Files */,
-				BE0A777520D0399B002372DE /* Controller */,
-				BE0A776D20CFDFCB002372DE /* Info.plist */,
-				BE22587D20D24C600094AE49 /* GoogleService-Info.plist */,
+				BE0A777520D0399B002372DE /* View Controllers */,
+				BE4FD64820D6546400FF4500 /* Storyboards */,
 			);
 			path = Treedo;
 			sourceTree = "<group>";
 		};
-		BE0A777520D0399B002372DE /* Controller */ = {
+		BE0A777520D0399B002372DE /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				BE0A776320CFDFC9002372DE /* ViewController.swift */,
 				BE0A777320D038FD002372DE /* LoginViewController.swift */,
 			);
-			path = Controller;
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		BE0A777620D03A58002372DE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				BE0A776120CFDFC9002372DE /* AppDelegate.swift */,
-				BE0A776520CFDFC9002372DE /* Main.storyboard */,
-				BE0A776820CFDFCB002372DE /* Assets.xcassets */,
-				BE0A776A20CFDFCB002372DE /* LaunchScreen.storyboard */,
+				BE22587D20D24C600094AE49 /* GoogleService-Info.plist */,
+				BE0A776D20CFDFCB002372DE /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BE4FD64820D6546400FF4500 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				BE0A776520CFDFC9002372DE /* Main.storyboard */,
+				BE0A776A20CFDFCB002372DE /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		BE4FD64920D6549900FF4500 /* Application Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				BE0A776120CFDFC9002372DE /* AppDelegate.swift */,
+			);
+			path = "Application Delegate";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
