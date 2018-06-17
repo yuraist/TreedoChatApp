@@ -12,9 +12,15 @@
 		BE0A776720CFDFC9002372DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0A776520CFDFC9002372DE /* Main.storyboard */; };
 		BE0A776920CFDFCB002372DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE0A776820CFDFCB002372DE /* Assets.xcassets */; };
 		BE0A776C20CFDFCB002372DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0A776A20CFDFCB002372DE /* LaunchScreen.storyboard */; };
+		BE0A777420D038FD002372DE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A777320D038FD002372DE /* LoginViewController.swift */; };
+		BE22587E20D24C600094AE49 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE22587D20D24C600094AE49 /* GoogleService-Info.plist */; };
+		C717ABAF669ACA081EF67E8B /* Pods_Treedo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E7ABD758109DAC12703951 /* Pods_Treedo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E61CAECB39984D9A1827F56 /* Pods-Treedo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treedo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Treedo/Pods-Treedo.debug.xcconfig"; sourceTree = "<group>"; };
+		66E7ABD758109DAC12703951 /* Pods_Treedo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Treedo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A04F5E4E55CC443075102075 /* Pods-Treedo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treedo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Treedo/Pods-Treedo.release.xcconfig"; sourceTree = "<group>"; };
 		BE0A775E20CFDFC9002372DE /* Treedo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treedo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0A776120CFDFC9002372DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE0A776320CFDFC9002372DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +28,8 @@
 		BE0A776820CFDFCB002372DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE0A776B20CFDFCB002372DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE0A776D20CFDFCB002372DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BE0A777320D038FD002372DE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BE22587D20D24C600094AE49 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +37,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C717ABAF669ACA081EF67E8B /* Pods_Treedo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00AC758051903E37D9AD2134 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1E61CAECB39984D9A1827F56 /* Pods-Treedo.debug.xcconfig */,
+				A04F5E4E55CC443075102075 /* Pods-Treedo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		753D0D66D1526A2E6286E4CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				66E7ABD758109DAC12703951 /* Pods_Treedo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BE0A775520CFDFC9002372DE = {
 			isa = PBXGroup;
 			children = (
 				BE0A776020CFDFC9002372DE /* Treedo */,
 				BE0A775F20CFDFC9002372DE /* Products */,
+				00AC758051903E37D9AD2134 /* Pods */,
+				753D0D66D1526A2E6286E4CD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +82,32 @@
 		BE0A776020CFDFC9002372DE /* Treedo */ = {
 			isa = PBXGroup;
 			children = (
-				BE0A776120CFDFC9002372DE /* AppDelegate.swift */,
+				BE0A777620D03A58002372DE /* Supporting Files */,
+				BE0A777520D0399B002372DE /* Controller */,
+				BE0A776D20CFDFCB002372DE /* Info.plist */,
+				BE22587D20D24C600094AE49 /* GoogleService-Info.plist */,
+			);
+			path = Treedo;
+			sourceTree = "<group>";
+		};
+		BE0A777520D0399B002372DE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
 				BE0A776320CFDFC9002372DE /* ViewController.swift */,
+				BE0A777320D038FD002372DE /* LoginViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		BE0A777620D03A58002372DE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BE0A776120CFDFC9002372DE /* AppDelegate.swift */,
 				BE0A776520CFDFC9002372DE /* Main.storyboard */,
 				BE0A776820CFDFCB002372DE /* Assets.xcassets */,
 				BE0A776A20CFDFCB002372DE /* LaunchScreen.storyboard */,
-				BE0A776D20CFDFCB002372DE /* Info.plist */,
 			);
-			path = Treedo;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +117,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE0A777020CFDFCB002372DE /* Build configuration list for PBXNativeTarget "Treedo" */;
 			buildPhases = (
+				CD9067D988A352568B7679F0 /* [CP] Check Pods Manifest.lock */,
 				BE0A775A20CFDFC9002372DE /* Sources */,
 				BE0A775B20CFDFC9002372DE /* Frameworks */,
 				BE0A775C20CFDFC9002372DE /* Resources */,
+				CC1E86599690F727AC01069C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -123,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE0A776C20CFDFCB002372DE /* LaunchScreen.storyboard in Resources */,
+				BE22587E20D24C600094AE49 /* GoogleService-Info.plist in Resources */,
 				BE0A776920CFDFCB002372DE /* Assets.xcassets in Resources */,
 				BE0A776720CFDFC9002372DE /* Main.storyboard in Resources */,
 			);
@@ -130,11 +179,57 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CC1E86599690F727AC01069C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Treedo/Pods-Treedo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Treedo/Pods-Treedo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CD9067D988A352568B7679F0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Treedo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		BE0A775A20CFDFC9002372DE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE0A777420D038FD002372DE /* LoginViewController.swift in Sources */,
 				BE0A776420CFDFC9002372DE /* ViewController.swift in Sources */,
 				BE0A776220CFDFC9002372DE /* AppDelegate.swift in Sources */,
 			);
@@ -278,11 +373,13 @@
 		};
 		BE0A777120CFDFCB002372DE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1E61CAECB39984D9A1827F56 /* Pods-Treedo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N2HCJ99WYH;
 				INFOPLIST_FILE = Treedo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,11 +393,13 @@
 		};
 		BE0A777220CFDFCB002372DE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A04F5E4E55CC443075102075 /* Pods-Treedo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N2HCJ99WYH;
 				INFOPLIST_FILE = Treedo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
