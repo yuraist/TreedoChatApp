@@ -22,10 +22,18 @@ class MessagesViewController: UITableViewController {
     // Setup a logout button
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newMessage))
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     
-    // User is not logged in
-    let auth = Auth.auth()
-    if let uid = auth.currentUser?.uid {
+    setupUser()
+  }
+  
+  // Setup user data
+  private func setupUser() {
+    // Check authentication
+    if let uid = Auth.auth().currentUser?.uid {
       // Update username in the navigation bar title
       ref.child("users").child(uid).observeSingleEvent(of: .value) { (snapshot) in
         if let userDataDict = snapshot.value as? [String: AnyObject] {

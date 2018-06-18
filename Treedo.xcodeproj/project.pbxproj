@@ -99,8 +99,8 @@
 		BE0A777520D0399B002372DE /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BE0A776320CFDFC9002372DE /* MessagesViewController.swift */,
 				BE0A777320D038FD002372DE /* LoginViewController.swift */,
+				BE0A776320CFDFC9002372DE /* MessagesViewController.swift */,
 				BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */,
 			);
 			path = "View Controllers";

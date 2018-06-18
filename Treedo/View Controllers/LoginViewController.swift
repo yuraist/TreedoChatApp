@@ -9,10 +9,12 @@
 import UIKit
 import Firebase
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
   // Firebase database reference
   private var ref: DatabaseReference!
+  
+  // MARK: - Views initialization
   
   // Username, email and password text fields container
   private let inputsContainerView: UIView = {
@@ -98,18 +100,26 @@ class LoginViewController: UIViewController {
     return tf
   }()
   
-  private let profileImageView: UIImageView = {
+  // The image view cannot set self as target of UITapGestureRecognizer while the controller is not initialized
+  lazy private var profileImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = UIImage(named: "zizi.jpg")
     imageView.layer.cornerRadius = Settings.loginScreenImageViewHeight / 2
     imageView.layer.masksToBounds = true
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.contentMode = .scaleAspectFill
+    
+    // Activate a tap gesture recognizer
+    imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
+    imageView.isUserInteractionEnabled = true
+    
     return imageView
   }()
   
   private var inputsContainerViewHeightAnchor: NSLayoutConstraint?
   private var usernameTextFieldHeightAnchor: NSLayoutConstraint?
+  
+  // MARK: - View Controller lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -132,6 +142,8 @@ class LoginViewController: UIViewController {
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
   }
+  
+  // MARK: - Setup views
   
   private func setupInputsContainerView() {
     // Setup x, y, width and hight constraints
@@ -206,6 +218,8 @@ class LoginViewController: UIViewController {
     loginRegisterSegmentedControl.heightAnchor.constraint(equalToConstant: Settings.segmentedControlHeight).isActive = true
   }
   
+  // MARK: - Selectors
+  
   @objc private func handleRegisterLogin() {
     if loginRegisterSegmentedControl.selectedSegmentIndex == 0 {
       handleLogin()
@@ -213,6 +227,49 @@ class LoginViewController: UIViewController {
       handleRegister()
     }
   }
+  
+  @objc private func handleSelectProfileImageView() {
+    let picker = UIImagePickerController()
+    picker.delegate = self
+    picker.allowsEditing = true
+    present(picker, animated: true, completion: nil)
+  }
+  
+  @objc private func handleLoginRegisterChange() {
+    let title = loginRegisterSegmentedControl.titleForSegment(at: loginRegisterSegmentedControl.selectedSegmentIndex)
+    loginRegisterButton.setTitle(title, for: .normal)
+    
+    // Change the inputs container view size
+    inputsContainerViewHeightAnchor?.constant = (loginRegisterSegmentedControl.selectedSegmentIndex == 0) ? Settings.loginInputsContainerViewHeight : Settings.registerInputsContainerViewHeight
+    
+    // Hide the username text field
+    usernameTextFieldHeightAnchor?.isActive = false
+    usernameTextFieldHeightAnchor = usernameTextField.heightAnchor.constraint(equalToConstant: loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 0 : Settings.loginScreenTextFieldHeight)
+    usernameTextFieldHeightAnchor?.isActive = true
+  }
+  
+  // MARK: - Handle image picker
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    var selectedImageFromPicker: UIImage?
+    
+    if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+      selectedImageFromPicker = editedImage
+    } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+      selectedImageFromPicker = originalImage
+    }
+    
+    if let selectedImage = selectedImageFromPicker {
+      profileImageView.image = selectedImage
+    }
+    
+    dismiss(animated: true, completion: nil)
+  }
+  
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    dismiss(animated: true, completion: nil)
+  }
+  
+  // MARK: - Firebase handlers
   
   private func handleLogin() {
     guard let email = emailTextField.text, let password = passwordTextField.text else {
@@ -246,29 +303,41 @@ class LoginViewController: UIViewController {
       }
       
       // Successfully authenticated user
-      let userReference = self.ref.child("users").child(uid)
-      let values = ["email": email, "username": username]
-      userReference.updateChildValues(values, withCompletionBlock: { (err, reference) in
-        if err != nil {
-          print(err!)
-          return
-        }
-        self.dismiss(animated: true, completion: nil)
-      })
+      let imageName = UUID().uuidString
+      let storageRef = Storage.storage().reference().child("images/\(imageName).png")
+      if let uploadData = UIImagePNGRepresentation(self.profileImageView.image!) {
+        storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+          if error != nil {
+            print(error!)
+            return
+          }
+          
+          // Get access to download URL
+          storageRef.downloadURL(completion: { (url, err) in
+            if err != nil {
+              print(err!)
+              return
+            }
+            
+            if let downloadUrlString = url?.absoluteString {
+              let values = ["username": username, "email": email, "profileImageUrl": downloadUrlString]
+              self.registerUserIntoDatabase(withUID: uid, values: values)
+            }
+          })
+        })
+      }
     }
   }
- 
-  @objc private func handleLoginRegisterChange() {
-    let title = loginRegisterSegmentedControl.titleForSegment(at: loginRegisterSegmentedControl.selectedSegmentIndex)
-    loginRegisterButton.setTitle(title, for: .normal)
-    
-    // Change the inputs container view size
-    inputsContainerViewHeightAnchor?.constant = (loginRegisterSegmentedControl.selectedSegmentIndex == 0) ? Settings.loginInputsContainerViewHeight : Settings.registerInputsContainerViewHeight
-    
-    // Hide the username text field
-    usernameTextFieldHeightAnchor?.isActive = false
-    usernameTextFieldHeightAnchor = usernameTextField.heightAnchor.constraint(equalToConstant: loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 0 : Settings.loginScreenTextFieldHeight)
-    usernameTextFieldHeightAnchor?.isActive = true
+  
+  private func registerUserIntoDatabase(withUID uid: String, values: [String: String]) {
+    let userReference = self.ref.child("users").child(uid)
+    userReference.updateChildValues(values, withCompletionBlock: { (err, reference) in
+      if err != nil {
+        print(err!)
+        return
+      }
+      self.dismiss(animated: true, completion: nil)
+    })
   }
 }
 
