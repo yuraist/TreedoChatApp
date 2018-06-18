@@ -12,7 +12,7 @@ import Firebase
 class LoginViewController: UIViewController {
   
   // Firebase database reference
-  var ref: DatabaseReference!
+  private var ref: DatabaseReference!
   
   // Username, email and password text fields container
   private let inputsContainerView: UIView = {

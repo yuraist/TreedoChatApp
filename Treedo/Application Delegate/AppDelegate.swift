@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Change Main.storyboard to my own view controller from code
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.makeKeyAndVisible()
-    window?.rootViewController = UINavigationController(rootViewController: ViewController())
+    window?.rootViewController = UINavigationController(rootViewController: MessagesViewController())
     
     FirebaseApp.configure()
     

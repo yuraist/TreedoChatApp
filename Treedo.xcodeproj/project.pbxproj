@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		BE0A776220CFDFC9002372DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A776120CFDFC9002372DE /* AppDelegate.swift */; };
-		BE0A776420CFDFC9002372DE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A776320CFDFC9002372DE /* ViewController.swift */; };
+		BE0A776420CFDFC9002372DE /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A776320CFDFC9002372DE /* MessagesViewController.swift */; };
 		BE0A776720CFDFC9002372DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0A776520CFDFC9002372DE /* Main.storyboard */; };
 		BE0A776920CFDFCB002372DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE0A776820CFDFCB002372DE /* Assets.xcassets */; };
 		BE0A776C20CFDFCB002372DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0A776A20CFDFCB002372DE /* LaunchScreen.storyboard */; };
 		BE0A777420D038FD002372DE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A777320D038FD002372DE /* LoginViewController.swift */; };
 		BE22587E20D24C600094AE49 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE22587D20D24C600094AE49 /* GoogleService-Info.plist */; };
+		BE4FD64B20D6A20F00FF4500 /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */; };
+		BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD64C20D6CF4800FF4500 /* User.swift */; };
 		C717ABAF669ACA081EF67E8B /* Pods_Treedo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E7ABD758109DAC12703951 /* Pods_Treedo.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,13 +25,15 @@
 		A04F5E4E55CC443075102075 /* Pods-Treedo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treedo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Treedo/Pods-Treedo.release.xcconfig"; sourceTree = "<group>"; };
 		BE0A775E20CFDFC9002372DE /* Treedo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treedo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0A776120CFDFC9002372DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BE0A776320CFDFC9002372DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BE0A776320CFDFC9002372DE /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		BE0A776620CFDFC9002372DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BE0A776820CFDFCB002372DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE0A776B20CFDFCB002372DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE0A776D20CFDFCB002372DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE0A777320D038FD002372DE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BE22587D20D24C600094AE49 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
+		BE4FD64C20D6CF4800FF4500 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,7 @@
 				BE0A777620D03A58002372DE /* Supporting Files */,
 				BE0A777520D0399B002372DE /* View Controllers */,
 				BE4FD64820D6546400FF4500 /* Storyboards */,
+				BE4FD64E20D6CF5F00FF4500 /* Models */,
 			);
 			path = Treedo;
 			sourceTree = "<group>";
@@ -94,8 +99,9 @@
 		BE0A777520D0399B002372DE /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BE0A776320CFDFC9002372DE /* ViewController.swift */,
+				BE0A776320CFDFC9002372DE /* MessagesViewController.swift */,
 				BE0A777320D038FD002372DE /* LoginViewController.swift */,
+				BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -124,6 +130,15 @@
 				BE0A776120CFDFC9002372DE /* AppDelegate.swift */,
 			);
 			path = "Application Delegate";
+			sourceTree = "<group>";
+		};
+		BE4FD64E20D6CF5F00FF4500 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BE4FD64C20D6CF4800FF4500 /* User.swift */,
+			);
+			name = Models;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,8 +260,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE4FD64B20D6A20F00FF4500 /* NewMessageController.swift in Sources */,
 				BE0A777420D038FD002372DE /* LoginViewController.swift in Sources */,
-				BE0A776420CFDFC9002372DE /* ViewController.swift in Sources */,
+				BE0A776420CFDFC9002372DE /* MessagesViewController.swift in Sources */,
+				BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */,
 				BE0A776220CFDFC9002372DE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,7 +411,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N2HCJ99WYH;
-				INFOPLIST_FILE = Treedo/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Treedo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -414,7 +431,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N2HCJ99WYH;
-				INFOPLIST_FILE = Treedo/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Treedo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
