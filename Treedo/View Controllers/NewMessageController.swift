@@ -42,7 +42,8 @@ class NewMessageController: UITableViewController {
         // Get user data from the firebase database
         let username = userDictionary["username"] as? String
         let email = userDictionary["email"] as? String
-        let user = User(username: username, email: email)
+        let profileImageURL = userDictionary["profileImageUrl"] as? String
+        let user = User(username: username, email: email, profileImageURL: profileImageURL)
         
         // Append a user into the users array
         self.users.append(user)
@@ -60,25 +61,59 @@ class NewMessageController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! UserCell
     
     if users.count > 0 {
       let user = users[indexPath.row]
       cell.textLabel?.text = user.username
       cell.detailTextLabel?.text = user.email
+      
+      if let profileImageUrl = user.profileImageURL {
+        cell.profileImageView.loadImageUsingCache(withUrlString: profileImageUrl)
+      }
+      
     } else {
       cell.textLabel?.text = "No users found"
     }
     
     return cell
   }
+  
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 72
+  }
 }
 
 
 class UserCell: UITableViewCell {
   
+  let profileImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.image = UIImage(named: "user.png")
+    imageView.contentMode = .scaleAspectFill
+    imageView.layer.cornerRadius = 24
+    imageView.layer.masksToBounds = true
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    return imageView
+  }()
+  
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    textLabel?.frame = CGRect(x: 64, y: textLabel!.frame.origin.y - 2, width: textLabel!.frame.width, height: textLabel!.frame.height)
+    detailTextLabel?.frame = CGRect(x: 64, y: detailTextLabel!.frame.origin.y + 2, width: detailTextLabel!.frame.width, height: detailTextLabel!.frame.height)
+  }
+  
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    
+    addSubview(profileImageView)
+    
+    // TODO: - Create constants for width and height
+    profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
+    profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+    profileImageView.widthAnchor.constraint(equalToConstant: 48).isActive = true
+    profileImageView.heightAnchor.constraint(equalToConstant: 48).isActive = true
   }
   
   required init?(coder aDecoder: NSCoder) {

@@ -16,6 +16,7 @@
 		BE22587E20D24C600094AE49 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE22587D20D24C600094AE49 /* GoogleService-Info.plist */; };
 		BE4FD64B20D6A20F00FF4500 /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */; };
 		BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD64C20D6CF4800FF4500 /* User.swift */; };
+		BE4FD65320D8143B00FF4500 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65220D8143B00FF4500 /* Extensions.swift */; };
 		C717ABAF669ACA081EF67E8B /* Pods_Treedo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E7ABD758109DAC12703951 /* Pods_Treedo.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		BE22587D20D24C600094AE49 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		BE4FD64C20D6CF4800FF4500 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		BE4FD65220D8143B00FF4500 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 		BE0A776020CFDFC9002372DE /* Treedo */ = {
 			isa = PBXGroup;
 			children = (
+				BE4FD65120D8142B00FF4500 /* Helpers */,
 				BE0A776820CFDFCB002372DE /* Assets.xcassets */,
 				BE4FD64920D6549900FF4500 /* Application Delegate */,
 				BE0A777620D03A58002372DE /* Supporting Files */,
@@ -139,6 +142,14 @@
 			);
 			name = Models;
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		BE4FD65120D8142B00FF4500 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BE4FD65220D8143B00FF4500 /* Extensions.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE4FD64B20D6A20F00FF4500 /* NewMessageController.swift in Sources */,
+				BE4FD65320D8143B00FF4500 /* Extensions.swift in Sources */,
 				BE0A777420D038FD002372DE /* LoginViewController.swift in Sources */,
 				BE0A776420CFDFC9002372DE /* MessagesViewController.swift in Sources */,
 				BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */,

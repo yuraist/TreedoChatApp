@@ -27,23 +27,64 @@ class MessagesViewController: UITableViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    setupUser()
+    fetchUserAndSetupNavigationBar()
   }
   
   // Setup user data
-  private func setupUser() {
+  func fetchUserAndSetupNavigationBar() {
     // Check authentication
     if let uid = Auth.auth().currentUser?.uid {
       // Update username in the navigation bar title
       ref.child("users").child(uid).observeSingleEvent(of: .value) { (snapshot) in
         if let userDataDict = snapshot.value as? [String: AnyObject] {
-          self.navigationItem.title = userDataDict["username"] as? String
+          let username = userDataDict["username"] as? String
+          let email = userDataDict["email"] as? String
+          let profileImageUrl = userDataDict["profileImageUrl"] as? String
+          
+          let user = User(username: username, email: email, profileImageURL: profileImageUrl)
+          self.setupNavBar(withUser: user)
         }
       }
     } else {
       // Show the login screen
       perform(#selector(handleLogout))
     }
+  }
+  
+  func setupNavBar(withUser user: User) {
+    let titleView = UIView()
+    titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+    
+    let profileImageView = UIImageView()
+    profileImageView.translatesAutoresizingMaskIntoConstraints = false
+    profileImageView.contentMode = .scaleAspectFill
+    profileImageView.layer.cornerRadius = 18
+    profileImageView.clipsToBounds = true
+    
+    if let profileImageUrl = user.profileImageURL {
+      profileImageView.loadImageUsingCache(withUrlString: profileImageUrl)
+    }
+    
+    titleView.addSubview(profileImageView)
+    
+    // Add profile image view constraints
+    profileImageView.leftAnchor.constraint(equalTo: titleView.leftAnchor).isActive = true
+    profileImageView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+    profileImageView.widthAnchor.constraint(equalToConstant: 36).isActive = true
+    profileImageView.heightAnchor.constraint(equalToConstant: 36).isActive = true
+    
+    let usernameLabel = UILabel()
+    usernameLabel.text = user.username
+    usernameLabel.translatesAutoresizingMaskIntoConstraints = false
+    
+    titleView.addSubview(usernameLabel)
+    
+    usernameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
+    usernameLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+    usernameLabel.rightAnchor.constraint(equalTo: titleView.rightAnchor).isActive = true
+    usernameLabel.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
+    
+    navigationItem.titleView = titleView
   }
   
   @objc private func newMessage() {
@@ -61,6 +102,7 @@ class MessagesViewController: UITableViewController {
     
     // Show the login view controller
     let loginViewController = LoginViewController()
+    loginViewController.messagesViewController = self
     present(loginViewController, animated: true, completion: nil)
   }
   

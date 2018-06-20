@@ -9,10 +9,11 @@
 import UIKit
 import Firebase
 
-class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
   
   // Firebase database reference
   private var ref: DatabaseReference!
+  var messagesViewController: MessagesViewController?
   
   // MARK: - Views initialization
   
@@ -32,7 +33,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     button.setTitle("Register", for: .normal)
     button.tintColor = UIColor.white
     button.setTitleColor(UIColor(white: 1, alpha: 0.6), for: .highlighted)
-
+    
     // Setup font changing for larger text
     let font = UIFont.boldSystemFont(ofSize: Settings.fontSize)
     if #available(iOS 11.0, *) {
@@ -124,21 +125,28 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // Create firebase database reference
     ref = Database.database().reference()
     
+    // Setup background color
     view.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+    
+    usernameTextField.delegate = self
+    emailTextField.delegate = self
+    passwordTextField.delegate = self
     
     view.addSubview(inputsContainerView)
     view.addSubview(loginRegisterButton)
     view.addSubview(profileImageView)
     view.addSubview(loginRegisterSegmentedControl)
     
+    // Setup constraints
     setupInputsContainerView()
     setupLoginRegisterButton()
     setupProfileImageView()
     setupLoginRegisterSegmentedControl()
   }
- 
+  
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
   }
@@ -196,7 +204,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
   private func setupLoginRegisterButton() {
     loginRegisterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     loginRegisterButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor,
-                                        constant: Settings.middleOffset).isActive = true
+                                             constant: Settings.middleOffset).isActive = true
     loginRegisterButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
     loginRegisterButton.heightAnchor.constraint(equalToConstant: Settings.loginButtonHeight).isActive = true
   }
@@ -248,7 +256,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     usernameTextFieldHeightAnchor?.isActive = true
   }
   
-  // MARK: - Handle image picker
+  // MARK: - UIImagePickerControllerDelegate
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     var selectedImageFromPicker: UIImage?
     
@@ -269,6 +277,21 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     dismiss(animated: true, completion: nil)
   }
   
+  // MARK: - UITextFieldDelegate
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    switch textField.placeholder {
+    case "Username":
+      emailTextField.becomeFirstResponder()
+    case "Email":
+      passwordTextField.becomeFirstResponder()
+    case "Password":
+      perform(#selector(handleRegisterLogin))
+    default:
+      textField.resignFirstResponder()
+    }
+    return true
+  }
+  
   // MARK: - Firebase handlers
   
   private func handleLogin() {
@@ -283,6 +306,8 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
       }
       
       // Successfully authenticated user
+      self.messagesViewController?.fetchUserAndSetupNavigationBar()
+      
       self.dismiss(animated: true, completion: nil)
     }
   }
@@ -303,28 +328,34 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
       }
       
       // Successfully authenticated user
+      // Save an image into the firebase storage
       let imageName = UUID().uuidString
-      let storageRef = Storage.storage().reference().child("images/\(imageName).png")
-      if let uploadData = UIImagePNGRepresentation(self.profileImageView.image!) {
-        storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
-          if error != nil {
-            print(error!)
-            return
-          }
-          
-          // Get access to download URL
-          storageRef.downloadURL(completion: { (url, err) in
-            if err != nil {
-              print(err!)
+      let storageRef = Storage.storage().reference().child("images/\(imageName).jpg")
+      
+      // Get the image data
+      if let profileImage = self.profileImageView.image {
+        if let uploadData = UIImageJPEGRepresentation(profileImage, 0.1) {
+          // Put the data into the datastorage
+          storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+            if error != nil {
+              print(error!)
               return
             }
             
-            if let downloadUrlString = url?.absoluteString {
-              let values = ["username": username, "email": email, "profileImageUrl": downloadUrlString]
-              self.registerUserIntoDatabase(withUID: uid, values: values)
-            }
+            // Get access to download URL
+            storageRef.downloadURL(completion: { (url, err) in
+              if err != nil {
+                print(err!)
+                return
+              }
+              
+              if let downloadUrlString = url?.absoluteString {
+                let values = ["username": username, "email": email, "profileImageUrl": downloadUrlString]
+                self.registerUserIntoDatabase(withUID: uid, values: values)
+              }
+            })
           })
-        })
+        }
       }
     }
   }
@@ -336,6 +367,12 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
         print(err!)
         return
       }
+      
+      let username = values["username"]
+      let email = values["email"]
+      let profileImageUrl = values["profileImageUrl"]
+      let user = User(username: username, email: email, profileImageURL: profileImageUrl)
+      self.messagesViewController?.setupNavBar(withUser: user)
       self.dismiss(animated: true, completion: nil)
     })
   }
