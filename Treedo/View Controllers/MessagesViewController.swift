@@ -21,7 +21,7 @@ class MessagesViewController: UITableViewController {
     
     // Setup a logout button
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newMessage))
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNewMessageController))
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +55,11 @@ class MessagesViewController: UITableViewController {
     let titleView = UIView()
     titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
     
+    let containerView = UIView()
+    containerView.translatesAutoresizingMaskIntoConstraints = false
+    
+    titleView.addSubview(containerView)
+    
     let profileImageView = UIImageView()
     profileImageView.translatesAutoresizingMaskIntoConstraints = false
     profileImageView.contentMode = .scaleAspectFill
@@ -65,11 +70,11 @@ class MessagesViewController: UITableViewController {
       profileImageView.loadImageUsingCache(withUrlString: profileImageUrl)
     }
     
-    titleView.addSubview(profileImageView)
+    containerView.addSubview(profileImageView)
     
     // Add profile image view constraints
-    profileImageView.leftAnchor.constraint(equalTo: titleView.leftAnchor).isActive = true
-    profileImageView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+    profileImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+    profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
     profileImageView.widthAnchor.constraint(equalToConstant: 36).isActive = true
     profileImageView.heightAnchor.constraint(equalToConstant: 36).isActive = true
     
@@ -77,17 +82,45 @@ class MessagesViewController: UITableViewController {
     usernameLabel.text = user.username
     usernameLabel.translatesAutoresizingMaskIntoConstraints = false
     
-    titleView.addSubview(usernameLabel)
+    containerView.addSubview(usernameLabel)
     
     usernameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
     usernameLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
-    usernameLabel.rightAnchor.constraint(equalTo: titleView.rightAnchor).isActive = true
+    usernameLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
     usernameLabel.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
     
+    containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+    containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+    containerView.widthAnchor.constraint(lessThanOrEqualTo: titleView.widthAnchor).isActive = true
+    
     navigationItem.titleView = titleView
+    if #available(iOS 11.0, *) {
+      self.navigationController?.navigationBar.prefersLargeTitles = false
+      self.navigationItem.largeTitleDisplayMode = .automatic
+      var width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width - 15.0
+      let height = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).height
+      
+      let screenSize: CGRect = UIScreen.main.bounds
+      let windowWidth = screenSize.width
+      width = windowWidth * 0.55
+      
+      let widthConstraint = titleView.widthAnchor.constraint(equalToConstant: width)
+      let heightConstraint = titleView.heightAnchor.constraint(equalToConstant: height)
+      
+      heightConstraint.isActive = true
+      widthConstraint.isActive = true
+    }
+    
+    titleView.isUserInteractionEnabled = true
+    titleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showChatController)))
   }
   
-  @objc private func newMessage() {
+  @objc private func showChatController() {
+    let chatController = ChatController()
+    navigationController?.pushViewController(chatController, animated: true)
+  }
+  
+  @objc private func showNewMessageController() {
     let newMessageController = NewMessageController()
     present(UINavigationController(rootViewController: newMessageController), animated: true, completion: nil)
   }

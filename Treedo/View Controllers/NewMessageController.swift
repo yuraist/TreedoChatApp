@@ -22,7 +22,7 @@ class NewMessageController: UITableViewController {
     
     // Add a cancel button
     navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
-  
+    navigationItem.title = "New Message"
     // Register a custom table view cell
     tableView.register(UserCell.self, forCellReuseIdentifier: reuseIdentifier)
     

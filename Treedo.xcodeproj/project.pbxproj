@@ -17,6 +17,7 @@
 		BE4FD64B20D6A20F00FF4500 /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */; };
 		BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD64C20D6CF4800FF4500 /* User.swift */; };
 		BE4FD65320D8143B00FF4500 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65220D8143B00FF4500 /* Extensions.swift */; };
+		BE4FD65520DA5D5900FF4500 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65420DA5D5900FF4500 /* ChatController.swift */; };
 		C717ABAF669ACA081EF67E8B /* Pods_Treedo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E7ABD758109DAC12703951 /* Pods_Treedo.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		BE4FD64C20D6CF4800FF4500 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BE4FD65220D8143B00FF4500 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		BE4FD65420DA5D5900FF4500 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			children = (
 				BE0A777320D038FD002372DE /* LoginViewController.swift */,
 				BE0A776320CFDFC9002372DE /* MessagesViewController.swift */,
+				BE4FD65420DA5D5900FF4500 /* ChatController.swift */,
 				BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */,
 			);
 			path = "View Controllers";
@@ -273,6 +276,7 @@
 			files = (
 				BE4FD64B20D6A20F00FF4500 /* NewMessageController.swift in Sources */,
 				BE4FD65320D8143B00FF4500 /* Extensions.swift in Sources */,
+				BE4FD65520DA5D5900FF4500 /* ChatController.swift in Sources */,
 				BE0A777420D038FD002372DE /* LoginViewController.swift in Sources */,
 				BE0A776420CFDFC9002372DE /* MessagesViewController.swift in Sources */,
 				BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */,
