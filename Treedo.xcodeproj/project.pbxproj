@@ -18,6 +18,8 @@
 		BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD64C20D6CF4800FF4500 /* User.swift */; };
 		BE4FD65320D8143B00FF4500 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65220D8143B00FF4500 /* Extensions.swift */; };
 		BE4FD65520DA5D5900FF4500 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65420DA5D5900FF4500 /* ChatController.swift */; };
+		BE4FD65720E0D57600FF4500 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65620E0D57600FF4500 /* Message.swift */; };
+		BE4FD65A20E4E8D400FF4500 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65920E4E8D400FF4500 /* UserCell.swift */; };
 		C717ABAF669ACA081EF67E8B /* Pods_Treedo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E7ABD758109DAC12703951 /* Pods_Treedo.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,8 @@
 		BE4FD64C20D6CF4800FF4500 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BE4FD65220D8143B00FF4500 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BE4FD65420DA5D5900FF4500 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
+		BE4FD65620E0D57600FF4500 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		BE4FD65920E4E8D400FF4500 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,18 +94,19 @@
 		BE0A776020CFDFC9002372DE /* Treedo */ = {
 			isa = PBXGroup;
 			children = (
-				BE4FD65120D8142B00FF4500 /* Helpers */,
 				BE0A776820CFDFCB002372DE /* Assets.xcassets */,
+				BE4FD64E20D6CF5F00FF4500 /* Models */,
+				BE4FD65820E4E8B000FF4500 /* Views */,
+				BE0A777520D0399B002372DE /* Controllers */,
+				BE4FD65120D8142B00FF4500 /* Helpers */,
 				BE4FD64920D6549900FF4500 /* Application Delegate */,
 				BE0A777620D03A58002372DE /* Supporting Files */,
-				BE0A777520D0399B002372DE /* View Controllers */,
 				BE4FD64820D6546400FF4500 /* Storyboards */,
-				BE4FD64E20D6CF5F00FF4500 /* Models */,
 			);
 			path = Treedo;
 			sourceTree = "<group>";
 		};
-		BE0A777520D0399B002372DE /* View Controllers */ = {
+		BE0A777520D0399B002372DE /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				BE0A777320D038FD002372DE /* LoginViewController.swift */,
@@ -109,7 +114,7 @@
 				BE4FD65420DA5D5900FF4500 /* ChatController.swift */,
 				BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */,
 			);
-			path = "View Controllers";
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		BE0A777620D03A58002372DE /* Supporting Files */ = {
@@ -142,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				BE4FD64C20D6CF4800FF4500 /* User.swift */,
+				BE4FD65620E0D57600FF4500 /* Message.swift */,
 			);
 			name = Models;
 			path = "New Group";
@@ -153,6 +159,14 @@
 				BE4FD65220D8143B00FF4500 /* Extensions.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		BE4FD65820E4E8B000FF4500 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BE4FD65920E4E8D400FF4500 /* UserCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,6 +293,8 @@
 				BE4FD65520DA5D5900FF4500 /* ChatController.swift in Sources */,
 				BE0A777420D038FD002372DE /* LoginViewController.swift in Sources */,
 				BE0A776420CFDFC9002372DE /* MessagesViewController.swift in Sources */,
+				BE4FD65A20E4E8D400FF4500 /* UserCell.swift in Sources */,
+				BE4FD65720E0D57600FF4500 /* Message.swift in Sources */,
 				BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */,
 				BE0A776220CFDFC9002372DE /* AppDelegate.swift in Sources */,
 			);

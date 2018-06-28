@@ -80,7 +80,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     tf.placeholder = "Email"
     tf.autocapitalizationType = .none
     tf.keyboardType = .emailAddress
-    tf.autocorrectionType = .no
+//    tf.autocorrectionType = .no
     tf.translatesAutoresizingMaskIntoConstraints = false
     return tf
   }()
@@ -367,11 +367,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
         print(err!)
         return
       }
-      
-      let username = values["username"]
-      let email = values["email"]
-      let profileImageUrl = values["profileImageUrl"]
-      let user = User(username: username, email: email, profileImageURL: profileImageUrl)
+      let user = User(withDictionary: values as [String : AnyObject])
       self.messagesViewController?.setupNavBar(withUser: user)
       self.dismiss(animated: true, completion: nil)
     })

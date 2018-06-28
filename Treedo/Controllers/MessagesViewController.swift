@@ -13,6 +13,9 @@ class MessagesViewController: UITableViewController {
   
   private var ref: DatabaseReference!
   
+  var messages = [Message]()
+  var messagesDictionary = [String: Message]()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -22,12 +25,17 @@ class MessagesViewController: UITableViewController {
     // Setup a logout button
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNewMessageController))
+    
+    // Setup table view
+    tableView.register(UserCell.self, forCellReuseIdentifier: "cellId")
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
     fetchUserAndSetupNavigationBar()
+//    observeMessages()
+    observeUserMessages()
   }
   
   // Setup user data
@@ -37,11 +45,7 @@ class MessagesViewController: UITableViewController {
       // Update username in the navigation bar title
       ref.child("users").child(uid).observeSingleEvent(of: .value) { (snapshot) in
         if let userDataDict = snapshot.value as? [String: AnyObject] {
-          let username = userDataDict["username"] as? String
-          let email = userDataDict["email"] as? String
-          let profileImageUrl = userDataDict["profileImageUrl"] as? String
-          
-          let user = User(username: username, email: email, profileImageURL: profileImageUrl)
+          let user = User(withDictionary: userDataDict)
           self.setupNavBar(withUser: user)
         }
       }
@@ -51,13 +55,66 @@ class MessagesViewController: UITableViewController {
     }
   }
   
+  // Get last messages
+  func observeMessages() {
+    messages = []
+    ref.child("messages").observe(.childAdded) { [weak self] snapshot in
+      if let dictionary = snapshot.value as? [String: AnyObject] {
+        let message = Message(withDictinary: dictionary)
+        if let toId = message.toId {
+          self?.messagesDictionary[toId] = message
+          
+          self?.messages = Array(self!.messagesDictionary.values)
+          self?.messages.sort(by: { message1, message2 -> Bool in
+            return message1.timestamp!.intValue > message2.timestamp!.intValue
+          })
+        }
+        
+        DispatchQueue.main.async {
+          self?.tableView.reloadData()
+        }
+      }
+    }
+  }
+  
+  func observeUserMessages() {
+    messages.removeAll()
+    messagesDictionary.removeAll()
+    guard let uid = Auth.auth().currentUser?.uid else {
+      return
+    }
+    
+    let userRef = ref.child("user-messages").child(uid)
+    userRef.observe(.childAdded) { [unowned self] snapshot in
+      let messageId = snapshot.key
+      let messageRef = self.ref.child("messages").child(messageId)
+      
+      messageRef.observeSingleEvent(of: .value, with: { [unowned self] snapshot in
+        if let dictionary = snapshot.value as? [String: AnyObject] {
+          let message = Message(withDictinary: dictionary)
+          if let toId = message.toId {
+            self.messagesDictionary[toId] = message
+            
+            self.messages = Array(self.messagesDictionary.values)
+            self.messages.sort(by: { message1, message2 -> Bool in
+              return message1.timestamp!.intValue > message2.timestamp!.intValue
+            })
+          }
+          
+          DispatchQueue.main.async {
+            self.tableView.reloadData()
+          }
+        }
+      })
+    }
+  }
+  
   func setupNavBar(withUser user: User) {
     let titleView = UIView()
     titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
     
     let containerView = UIView()
     containerView.translatesAutoresizingMaskIntoConstraints = false
-    
     titleView.addSubview(containerView)
     
     let profileImageView = UIImageView()
@@ -81,7 +138,6 @@ class MessagesViewController: UITableViewController {
     let usernameLabel = UILabel()
     usernameLabel.text = user.username
     usernameLabel.translatesAutoresizingMaskIntoConstraints = false
-    
     containerView.addSubview(usernameLabel)
     
     usernameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
@@ -110,18 +166,17 @@ class MessagesViewController: UITableViewController {
       heightConstraint.isActive = true
       widthConstraint.isActive = true
     }
-    
-    titleView.isUserInteractionEnabled = true
-    titleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showChatController)))
   }
   
-  @objc private func showChatController() {
-    let chatController = ChatController()
+  func showChatController(forUser user: User) {
+    let chatController = ChatController(collectionViewLayout: UICollectionViewFlowLayout())
+    chatController.user = user
     navigationController?.pushViewController(chatController, animated: true)
   }
   
   @objc private func showNewMessageController() {
     let newMessageController = NewMessageController()
+    newMessageController.messagesController = self
     present(UINavigationController(rootViewController: newMessageController), animated: true, completion: nil)
   }
   
@@ -139,5 +194,41 @@ class MessagesViewController: UITableViewController {
     present(loginViewController, animated: true, completion: nil)
   }
   
+  // MARK: - Table view methods
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return messages.count > 0 ? messages.count : 1
+  }
+  
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! UserCell
+    if messages.count > 0 {
+      cell.message = messages[indexPath.row]
+    }
+    return cell
+  }
+  
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 72
+  }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    if messages.count > 0 {
+      let message = messages[indexPath.row]
+      
+      guard let chatPartnerId = message.chatPartnerId() else {
+        return
+      }
+      
+      let userRef = ref.child("users").child(chatPartnerId)
+      userRef.observeSingleEvent(of: .value) { [unowned self] snapshot in
+        guard let dictionary = snapshot.value as? [String: AnyObject] else {
+          return
+        }
+        
+        let user = User(withDictionary: dictionary, andUID: chatPartnerId)
+        self.showChatController(forUser: user)
+      }
+    }
+  }
 }
 
