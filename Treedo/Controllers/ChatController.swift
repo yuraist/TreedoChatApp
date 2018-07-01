@@ -9,15 +9,21 @@
 import UIKit
 import Firebase
 
-class ChatController: UICollectionViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout {
+class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
   
   private var ref: DatabaseReference!
+  
+  static let greenColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+  static let grayColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
   
   var user: User? {
     didSet {
       navigationItem.title = user?.username
+      observeMessages()
     }
   }
+  
+  var messages = [Message]()
   
   private lazy var inputTextField: UITextField = {
     let tf = UITextField()
@@ -32,11 +38,23 @@ class ChatController: UICollectionViewController, UITextFieldDelegate, UICollect
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
     collectionView?.backgroundColor = UIColor.white
-    collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+    collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
+    
+    let hideKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(handleHideKeyboard))
+    collectionView?.addGestureRecognizer(hideKeyboardGesture)
     
     ref = Database.database().reference()
     setupInputComponents()
+  }
+  
+  @objc func handleHideKeyboard() {
+    inputTextField.resignFirstResponder()
+  }
+  
+  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    collectionView?.collectionViewLayout.invalidateLayout()
   }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -47,6 +65,7 @@ class ChatController: UICollectionViewController, UITextFieldDelegate, UICollect
   
   private func setupInputComponents() {
     let containerView = UIView()
+    containerView.backgroundColor = .white
     containerView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(containerView)
     
@@ -90,6 +109,7 @@ class ChatController: UICollectionViewController, UITextFieldDelegate, UICollect
     guard let text = inputTextField.text, text != ""  else {
       return
     }
+    
     if let toId = user?.id, let fromId = Auth.auth().currentUser?.uid {
       let timestamp: NSNumber = NSNumber(value: Int(Date().timeIntervalSince1970))
       let values = ["text": text,
@@ -113,17 +133,86 @@ class ChatController: UICollectionViewController, UITextFieldDelegate, UICollect
     }
   }
   
+  func observeMessages() {
+    guard let uid = Auth.auth().currentUser?.uid else {
+      return
+    }
+    
+    let userMessagesRef = Database.database().reference().child("user-messages").child(uid)
+    userMessagesRef.observe(.childAdded, with: { [weak self] snapshot in
+      let messageId = snapshot.key
+      let messagesRef = self?.ref.child("messages").child(messageId)
+      messagesRef?.observeSingleEvent(of: .value, with: { snapshot in
+        guard let dictionary = snapshot.value as? [String: AnyObject] else {
+          return
+        }
+        
+        let message = Message(withDictinary: dictionary)
+        if message.chatPartnerId() == self?.user?.id {
+          self?.messages.append(message)
+          DispatchQueue.main.async {
+            self?.collectionView?.reloadData()
+          }
+        }
+      })
+    })
+  }
+  
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 5
+    return messages.count > 0 ? messages.count : 1
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-    cell.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatMessageCell
+    
+    if messages.count > 0 {
+      let message = messages[indexPath.item]
+      setupCell(cell, withMessage: message)
+    }
+    
     return cell
   }
   
+  private func setupCell(_ cell: ChatMessageCell, withMessage message: Message) {
+    
+    if let messageText = message.text {
+      cell.textView.text = messageText
+      cell.bubbleWidthAnchor?.constant = estimateFrame(forText: messageText).width + 32
+    }
+    
+    if message.fromId == Auth.auth().currentUser?.uid {
+      cell.bubbleView.backgroundColor = ChatController.greenColor
+      cell.textView.textColor = .white
+      cell.bubbleViewLeftAnchor?.isActive = false
+      cell.bubbleViewRightAnchor?.isActive = true
+      cell.profileImageView.isHidden = true
+    } else {
+      
+      if let profileImageUrl = user?.profileImageURL {
+        cell.profileImageView.loadImageUsingCache(withUrlString: profileImageUrl)
+      }
+      
+      cell.bubbleView.backgroundColor = ChatController.grayColor
+      cell.textView.textColor = .black
+      cell.bubbleViewLeftAnchor?.isActive = true
+      cell.bubbleViewRightAnchor?.isActive = false
+      cell.profileImageView.isHidden = false
+    }
+  }
+  
+  private func estimateFrame(forText text: String) -> CGRect {
+    let size = CGSize(width: 200, height: 1000)
+    let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+    return NSString(string: text).boundingRect(with: size, options: options, attributes: [kCTFontAttributeName as NSAttributedString.Key: UIFont.systemFont(ofSize: 16)], context: nil)
+  }
+  
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: view.frame.width, height: 80)
+    var height: CGFloat = 80
+    if messages.count > 0 {
+      if let text = messages[indexPath.item].text {
+        height = estimateFrame(forText: text).height
+      }
+    }
+    return CGSize(width: view.frame.width, height: height + 20)
   }
 }

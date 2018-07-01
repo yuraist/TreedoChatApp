@@ -38,6 +38,10 @@ class MessagesViewController: UITableViewController {
     observeUserMessages()
   }
   
+  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    fetchUserAndSetupNavigationBar()
+  }
+  
   // Setup user data
   func fetchUserAndSetupNavigationBar() {
     // Check authentication
@@ -77,6 +81,8 @@ class MessagesViewController: UITableViewController {
     }
   }
   
+  var timer: Timer?
+  
   func observeUserMessages() {
     messages.removeAll()
     messagesDictionary.removeAll()
@@ -92,8 +98,8 @@ class MessagesViewController: UITableViewController {
       messageRef.observeSingleEvent(of: .value, with: { [unowned self] snapshot in
         if let dictionary = snapshot.value as? [String: AnyObject] {
           let message = Message(withDictinary: dictionary)
-          if let toId = message.toId {
-            self.messagesDictionary[toId] = message
+          if let chatPartnerId = message.chatPartnerId() {
+            self.messagesDictionary[chatPartnerId] = message
             
             self.messages = Array(self.messagesDictionary.values)
             self.messages.sort(by: { message1, message2 -> Bool in
@@ -101,11 +107,16 @@ class MessagesViewController: UITableViewController {
             })
           }
           
-          DispatchQueue.main.async {
-            self.tableView.reloadData()
-          }
+          self.timer?.invalidate()
+          self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.reloadTable), userInfo: nil, repeats: false)
         }
       })
+    }
+  }
+  
+  @objc func reloadTable() {
+    DispatchQueue.main.async {
+      self.tableView.reloadData()
     }
   }
   
