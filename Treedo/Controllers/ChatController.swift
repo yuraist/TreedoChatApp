@@ -200,11 +200,11 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
           return
         }
         
-        let userMessagesRef = self.ref.child("user-messages").child(fromId)
+        let userMessagesRef = self.ref.child("user-messages").child(fromId).child(toId)
         let messageId = childMessageRef.key
         userMessagesRef.updateChildValues([messageId: 1])
         
-        let receipientUserMessagesRef = self.ref.child("user-messages").child(toId)
+        let receipientUserMessagesRef = self.ref.child("user-messages").child(toId).child(fromId)
         receipientUserMessagesRef.updateChildValues([messageId: 1])
       }
       inputTextField.text = ""
@@ -212,11 +212,11 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   }
   
   func observeMessages() {
-    guard let uid = Auth.auth().currentUser?.uid else {
+    guard let uid = Auth.auth().currentUser?.uid, let toId = user?.id else {
       return
     }
     
-    let userMessagesRef = Database.database().reference().child("user-messages").child(uid)
+    let userMessagesRef = Database.database().reference().child("user-messages").child(uid).child(toId)
     userMessagesRef.observe(.childAdded, with: { [weak self] snapshot in
       let messageId = snapshot.key
       let messagesRef = self?.ref.child("messages").child(messageId)
