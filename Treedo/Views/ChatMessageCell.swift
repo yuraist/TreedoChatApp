@@ -10,9 +10,10 @@ import UIKit
 
 class ChatMessageCell: UICollectionViewCell {
   
+  var chatController: ChatController?
+  
   let textView: UITextView = {
     let textView = UITextView()
-    textView.text = "Sample text for now"
     textView.font = UIFont.systemFont(ofSize: 16)
     textView.isEditable = false
     textView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,11 +31,23 @@ class ChatMessageCell: UICollectionViewCell {
     return view
   }()
   
+  lazy var messageImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.layer.cornerRadius = 16
+    imageView.layer.masksToBounds = true
+    imageView.contentMode = .scaleAspectFill
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleZoom(tapGesture:))))
+    imageView.isUserInteractionEnabled = true
+    return imageView
+  }()
+  
   let profileImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = UIImage(named: "user")
     imageView.layer.cornerRadius = 16
     imageView.layer.masksToBounds = true
+    imageView.contentMode = .scaleAspectFill
     imageView.translatesAutoresizingMaskIntoConstraints = false
     return imageView
   }()
@@ -42,6 +55,13 @@ class ChatMessageCell: UICollectionViewCell {
   var bubbleWidthAnchor: NSLayoutConstraint?
   var bubbleViewRightAnchor: NSLayoutConstraint?
   var bubbleViewLeftAnchor: NSLayoutConstraint?
+  
+  
+  @objc func handleZoom(tapGesture tap: UITapGestureRecognizer) {
+    if let imageView = tap.view as? UIImageView {
+      chatController?.performZoomIn(forStartingImageView: imageView)
+    }
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -64,6 +84,12 @@ class ChatMessageCell: UICollectionViewCell {
     bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
     bubbleWidthAnchor?.isActive = true
     bubbleView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
+    
+    bubbleView.addSubview(messageImageView)
+    messageImageView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor).isActive = true
+    messageImageView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
+    messageImageView.widthAnchor.constraint(equalTo: bubbleView.widthAnchor).isActive = true
+    messageImageView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
     
     textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
     textView.topAnchor.constraint(equalTo: topAnchor, constant: 1.5).isActive = true
