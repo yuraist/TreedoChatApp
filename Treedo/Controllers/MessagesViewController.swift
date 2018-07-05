@@ -127,7 +127,7 @@ class MessagesViewController: UITableViewController {
     })
     
     timer?.invalidate()
-    timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.reloadTable), userInfo: nil, repeats: false)
+    timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(self.reloadTable), userInfo: nil, repeats: false)
   }
   
   @objc func reloadTable() {

@@ -106,6 +106,10 @@ class ChatMessageCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    
+    textView.text = ""
+    messageImageView.image = nil
+    
     playerLayer?.removeFromSuperlayer()
     player?.pause()
     activityIndicatorView.stopAnimating()

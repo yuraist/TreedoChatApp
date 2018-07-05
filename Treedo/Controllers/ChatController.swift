@@ -27,14 +27,6 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   
   var messages = [Message]()
   
-  private lazy var inputTextField: UITextField = {
-    let tf = UITextField()
-    tf.placeholder = "Enter message..."
-    tf.translatesAutoresizingMaskIntoConstraints = false
-    tf.delegate = self
-    return tf
-  }()
-  
   private let cellId = "cellId"
   
   override func viewDidLoad() {
@@ -55,53 +47,10 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     setupKeyboardObservers()
   }
   
-  lazy var inputContainerView: UIView = {
-    let containerView = UIView()
-    containerView.backgroundColor = .white
-    containerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50)
-    
-    let sendButton = UIButton(type: .system)
-    sendButton.setTitle("Send", for: .normal)
-    sendButton.translatesAutoresizingMaskIntoConstraints = false
-    containerView.addSubview(sendButton)
-    
-    sendButton.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-    sendButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-    sendButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-    sendButton.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
-    sendButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
-    
-    let uploadImageView = UIImageView()
-    uploadImageView.image = #imageLiteral(resourceName: "picture")
-    uploadImageView.isUserInteractionEnabled = true
-    uploadImageView.translatesAutoresizingMaskIntoConstraints = false
-    containerView.addSubview(uploadImageView)
-    
-    uploadImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 8).isActive = true
-    uploadImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-    uploadImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-    uploadImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleShowImagePicker))
-    uploadImageView.addGestureRecognizer(tapGesture)
-    containerView.addSubview(inputTextField)
-    
-    inputTextField.leftAnchor.constraint(equalTo: uploadImageView.rightAnchor, constant: 8).isActive = true
-    inputTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-    inputTextField.rightAnchor.constraint(equalTo: sendButton.leftAnchor, constant: 8).isActive = true
-    inputTextField.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
-    
-    let separatorView = UIView()
-    separatorView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-    separatorView.translatesAutoresizingMaskIntoConstraints = false
-    containerView.addSubview(separatorView)
-    
-    separatorView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
-    separatorView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
-    separatorView.widthAnchor.constraint(equalTo: containerView.widthAnchor).isActive = true
-    separatorView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
-    
-    return containerView
+  lazy var inputContainerView: ChatInputContainerView = {
+    let chatInputContainerView = ChatInputContainerView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+    chatInputContainerView.chatController = self
+    return chatInputContainerView
   }()
   
   @objc func handleShowImagePicker() {
@@ -254,7 +203,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   }
   
   @objc func handleHideKeyboard() {
-    inputTextField.resignFirstResponder()
+    inputContainerView.inputTextField.resignFirstResponder()
   }
   
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -263,7 +212,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     perform(#selector(handleSend))
-    textField.resignFirstResponder()
+//    textField.resignFirstResponder()
     return true
   }
   
@@ -291,12 +240,12 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     sendButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
     sendButton.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
     sendButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
-    containerView.addSubview(inputTextField)
-    
-    inputTextField.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 8).isActive = true
-    inputTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-    inputTextField.rightAnchor.constraint(equalTo: sendButton.leftAnchor, constant: 8).isActive = true
-    inputTextField.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
+//    containerView.addSubview(inputTextField)
+//
+//    inputTextField.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 8).isActive = true
+//    inputTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+//    inputTextField.rightAnchor.constraint(equalTo: sendButton.leftAnchor, constant: 8).isActive = true
+//    inputTextField.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
     
     let separatorView = UIView()
     separatorView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
@@ -309,8 +258,8 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     separatorView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
   }
   
-  @objc private func handleSend() {
-    guard let text = inputTextField.text, text != "" else {
+  @objc func handleSend() {
+    guard let text = inputContainerView.inputTextField.text, text != "" else {
       return
     }
     
@@ -355,7 +304,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
         let receipientUserMessagesRef = self.ref.child("user-messages").child(toId).child(fromId)
         receipientUserMessagesRef.updateChildValues([messageId: 1])
       }
-      inputTextField.text = ""
+      inputContainerView.inputTextField.text = ""
     }
   }
   
@@ -391,7 +340,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return messages.count > 0 ? messages.count : 1
+    return messages.count
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

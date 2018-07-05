@@ -21,6 +21,7 @@
 		BE4FD65520DA5D5900FF4500 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65420DA5D5900FF4500 /* ChatController.swift */; };
 		BE4FD65720E0D57600FF4500 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65620E0D57600FF4500 /* Message.swift */; };
 		BE4FD65A20E4E8D400FF4500 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65920E4E8D400FF4500 /* UserCell.swift */; };
+		BEB049DB20EEA1A20085BBE0 /* ChatInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB049DA20EEA1A20085BBE0 /* ChatInputContainerView.swift */; };
 		C717ABAF669ACA081EF67E8B /* Pods_Treedo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E7ABD758109DAC12703951 /* Pods_Treedo.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		BE4FD65420DA5D5900FF4500 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		BE4FD65620E0D57600FF4500 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		BE4FD65920E4E8D400FF4500 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		BEB049DA20EEA1A20085BBE0 /* ChatInputContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputContainerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 			children = (
 				BE4FD65920E4E8D400FF4500 /* UserCell.swift */,
 				BE1722EA20E5338200594D64 /* ChatMessageCell.swift */,
+				BEB049DA20EEA1A20085BBE0 /* ChatInputContainerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				BE4FD65A20E4E8D400FF4500 /* UserCell.swift in Sources */,
 				BE4FD65720E0D57600FF4500 /* Message.swift in Sources */,
 				BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */,
+				BEB049DB20EEA1A20085BBE0 /* ChatInputContainerView.swift in Sources */,
 				BE0A776220CFDFC9002372DE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
