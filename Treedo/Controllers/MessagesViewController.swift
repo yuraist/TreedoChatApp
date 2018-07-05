@@ -28,6 +28,7 @@ class MessagesViewController: UITableViewController {
     
     // Setup table view
     tableView.register(UserCell.self, forCellReuseIdentifier: "cellId")
+    tableView.allowsMultipleSelectionDuringEditing = true
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -98,6 +99,11 @@ class MessagesViewController: UITableViewController {
         let messageId = snapshot.key
         self.fetchMessage(withId: messageId)
       })
+    }
+    
+    userRef.observe(.childRemoved) { (snapshot) in
+      self.messagesDictionary.removeValue(forKey: snapshot.key)
+      self.attemptReloadOfTable()
     }
   }
   
@@ -250,6 +256,31 @@ class MessagesViewController: UITableViewController {
         self.showChatController(forUser: user)
       }
     }
+  }
+  
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+  
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    guard let uid = Auth.auth().currentUser?.uid else {
+      return
+    }
+    
+    let message = messages[indexPath.row]
+    
+    if let chatPartnerId = message.chatPartnerId() {
+      Database.database().reference().child("user-messages").child(uid).child(chatPartnerId).removeValue { (err, ref) in
+        if err != nil {
+          print("Failed to delete message:", err!)
+          return
+        }
+        
+        self.messagesDictionary.removeValue(forKey: chatPartnerId)
+        self.attemptReloadOfTable()
+      }
+    }
+    
   }
 }
 
