@@ -19,6 +19,8 @@ class Message: NSObject {
   var imageWidth: CGFloat?
   var imageHeight: CGFloat?
   
+  var videoUrl: String?
+  
   var imageSize: CGSize? {
     if imageWidth != nil, imageHeight != nil {
       return CGSize(width: imageWidth!, height: imageHeight!)
@@ -38,5 +40,6 @@ class Message: NSObject {
     imageUrl = dict["imageUrl"] as? String
     imageWidth = dict["imageWidth"] as? CGFloat
     imageHeight = dict["imageHeight"] as? CGFloat
+    videoUrl = dict["videoUrl"] as? String
   }
 }

@@ -409,6 +409,8 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   
   private func setupCell(_ cell: ChatMessageCell, withMessage message: Message) {
     
+    cell.message = message
+    
     if let messageText = message.text {
       cell.textView.text = messageText
       cell.bubbleWidthAnchor?.constant = estimateFrame(forText: messageText).width + 32
@@ -441,6 +443,9 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
       cell.bubbleViewRightAnchor?.isActive = false
       cell.profileImageView.isHidden = false
     }
+    
+    // Show the play button if there is a video
+    cell.playButton.isHidden = message.videoUrl == nil
   }
   
   private func estimateFrame(forText text: String) -> CGRect {

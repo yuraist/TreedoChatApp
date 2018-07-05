@@ -7,10 +7,29 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ChatMessageCell: UICollectionViewCell {
   
   var chatController: ChatController?
+  var message: Message?
+  
+  let activityIndicatorView: UIActivityIndicatorView = {
+    let aiv = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    aiv.translatesAutoresizingMaskIntoConstraints = false
+    aiv.hidesWhenStopped = true
+    return aiv
+  }()
+  
+  lazy var playButton: UIButton = {
+    let button = UIButton(type: .system)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    let image = UIImage(named: "play-button")
+    button.setImage(image, for: .normal)
+    button.tintColor = .white
+    button.addTarget(self, action: #selector(handlePlay), for: .touchUpInside)
+    return button
+  }()
   
   let textView: UITextView = {
     let textView = UITextView()
@@ -58,9 +77,38 @@ class ChatMessageCell: UICollectionViewCell {
   
   
   @objc func handleZoom(tapGesture tap: UITapGestureRecognizer) {
+    if message?.videoUrl != nil {
+      return
+    }
+    
     if let imageView = tap.view as? UIImageView {
       chatController?.performZoomIn(forStartingImageView: imageView)
     }
+  }
+  
+  var player: AVPlayer?
+  var playerLayer: AVPlayerLayer?
+  
+  @objc func handlePlay() {
+    if let videoUrlString = message?.videoUrl, let url = URL(string: videoUrlString) {
+      player = AVPlayer(url: url)
+      
+      playerLayer = AVPlayerLayer(player: player)
+      playerLayer?.frame = bubbleView.bounds
+      playerLayer?.masksToBounds = true
+      bubbleView.layer.addSublayer(playerLayer!)
+      
+      player?.play()
+      activityIndicatorView.startAnimating()
+      playButton.isHidden = true
+    }
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    playerLayer?.removeFromSuperlayer()
+    player?.pause()
+    activityIndicatorView.stopAnimating()
   }
   
   override init(frame: CGRect) {
@@ -90,6 +138,20 @@ class ChatMessageCell: UICollectionViewCell {
     messageImageView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
     messageImageView.widthAnchor.constraint(equalTo: bubbleView.widthAnchor).isActive = true
     messageImageView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
+    
+    bubbleView.addSubview(playButton)
+    
+    playButton.centerXAnchor.constraint(equalTo: bubbleView.centerXAnchor).isActive = true
+    playButton.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor).isActive = true
+    playButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+    playButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+    
+    bubbleView.addSubview(activityIndicatorView)
+    
+    activityIndicatorView.centerXAnchor.constraint(equalTo: bubbleView.centerXAnchor).isActive = true
+    activityIndicatorView.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor).isActive = true
+    activityIndicatorView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+    activityIndicatorView.heightAnchor.constraint(equalToConstant: 50).isActive = true
     
     textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 8).isActive = true
     textView.topAnchor.constraint(equalTo: topAnchor, constant: 1.5).isActive = true
