@@ -64,6 +64,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     tf.autocapitalizationType = .none
     tf.keyboardType = .default
     tf.autocorrectionType = .no
+    tf.keyboardAppearance = .dark
     tf.translatesAutoresizingMaskIntoConstraints = false
     return tf
   }()
@@ -82,6 +83,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     tf.keyboardType = .emailAddress
 //    tf.autocorrectionType = .no
     tf.translatesAutoresizingMaskIntoConstraints = false
+    tf.keyboardAppearance = .dark
     return tf
   }()
   
@@ -96,6 +98,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     let tf = UITextField()
     tf.placeholder = "Password"
     tf.autocapitalizationType = .none
+    tf.keyboardAppearance = .dark
     tf.translatesAutoresizingMaskIntoConstraints = false
     tf.isSecureTextEntry = true
     return tf

@@ -21,8 +21,11 @@ class ChatInputContainerView: UIView, UITextFieldDelegate {
   
   lazy var inputTextField: UITextField = {
     let tf = UITextField()
-    tf.placeholder = "Enter message..."
+    tf.tintColor = .white
+    tf.textColor = .white
+    tf.keyboardAppearance = UIKeyboardAppearance.dark
     tf.translatesAutoresizingMaskIntoConstraints = false
+    tf.attributedPlaceholder = NSAttributedString(string: "Enter message...", attributes: [NSAttributedStringKey.foregroundColor : UIColor.color(r: 240, g: 240, b: 240)])
     tf.delegate = self
     return tf
   }()
@@ -30,13 +33,15 @@ class ChatInputContainerView: UIView, UITextFieldDelegate {
   let sendButton: UIButton = {
     let sendButton = UIButton(type: .system)
     sendButton.setTitle("Send", for: .normal)
+    sendButton.setTitleColor(UIColor.color(r: 255, g: 72, b: 100), for: .normal)
     sendButton.translatesAutoresizingMaskIntoConstraints = false
     return sendButton
   }()
   
   let uploadImageView: UIImageView = {
     let uploadImageView = UIImageView()
-    uploadImageView.image = #imageLiteral(resourceName: "picture")
+    uploadImageView.image = #imageLiteral(resourceName: "picture").withRenderingMode(.alwaysTemplate)
+    uploadImageView.tintColor = .white
     uploadImageView.isUserInteractionEnabled = true
     uploadImageView.translatesAutoresizingMaskIntoConstraints = false
     return uploadImageView
@@ -44,7 +49,7 @@ class ChatInputContainerView: UIView, UITextFieldDelegate {
   
   let separatorView: UIView = {
     let separatorView = UIView()
-    separatorView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+    separatorView.backgroundColor = #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)
     separatorView.translatesAutoresizingMaskIntoConstraints = false
     return separatorView
   }()
@@ -53,7 +58,7 @@ class ChatInputContainerView: UIView, UITextFieldDelegate {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    backgroundColor = .white
+    backgroundColor = UIColor.color(r: 15, g: 15, b: 30)
     
     addSubview(sendButton)
     sendButton.rightAnchor.constraint(equalTo: rightAnchor).isActive = true

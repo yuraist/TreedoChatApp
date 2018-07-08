@@ -362,20 +362,6 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     cell.message = message
     
-    if let messageText = message.text {
-      cell.textView.text = messageText
-      cell.bubbleWidthAnchor?.constant = estimateFrame(forText: messageText).width + 32
-      cell.textView.isHidden = false
-    } else if let messageImageUrl = message.imageUrl {
-      cell.bubbleWidthAnchor?.constant = 200
-      cell.messageImageView.loadImageUsingCache(withUrlString: messageImageUrl)
-      cell.messageImageView.isHidden = false
-      cell.bubbleView.backgroundColor = .clear
-      cell.textView.isHidden = true
-    } else {
-      cell.messageImageView.isHidden = true
-    }
-    
     if message.fromId == Auth.auth().currentUser?.uid {
       cell.bubbleView.backgroundColor = ChatController.greenColor
       cell.textView.textColor = .white
@@ -393,6 +379,20 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
       cell.bubbleViewLeftAnchor?.isActive = true
       cell.bubbleViewRightAnchor?.isActive = false
       cell.profileImageView.isHidden = false
+    }
+    
+    if let messageText = message.text {
+      cell.textView.text = messageText
+      cell.bubbleWidthAnchor?.constant = estimateFrame(forText: messageText).width + 32
+      cell.textView.isHidden = false
+    } else if let messageImageUrl = message.imageUrl {
+      cell.bubbleWidthAnchor?.constant = 200
+      cell.messageImageView.loadImageUsingCache(withUrlString: messageImageUrl)
+      cell.messageImageView.isHidden = false
+      cell.bubbleView.backgroundColor = .clear
+      cell.textView.isHidden = true
+    } else {
+      cell.messageImageView.isHidden = true
     }
     
     // Show the play button if there is a video
