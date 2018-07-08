@@ -15,8 +15,8 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   
   private var ref: DatabaseReference!
   
-  static let greenColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-  static let grayColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+  static let greenColor = UIColor.color(r: 0, g: 139, b: 247)
+  static let grayColor = UIColor.color(r: 200, g: 200, b: 200)
   
   var user: User? {
     didSet {
@@ -32,9 +32,11 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white] as [NSAttributedStringKey : Any]
+    
     collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
     collectionView?.showsVerticalScrollIndicator = false
-    collectionView?.backgroundColor = UIColor.white
+    collectionView?.backgroundColor = UIColor.color(r: 32, g: 34, b: 49)
     collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
     collectionView?.keyboardDismissMode = .interactive
     

@@ -29,7 +29,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
   
   private let loginRegisterButton: UIButton = {
     let button = UIButton()
-    button.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
+    button.backgroundColor = UIColor.color(r: 0, g: 139, b: 247)
     button.setTitle("Register", for: .normal)
     button.tintColor = UIColor.white
     button.setTitleColor(UIColor(white: 1, alpha: 0.6), for: .highlighted)
@@ -129,7 +129,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     ref = Database.database().reference()
     
     // Setup background color
-    view.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+    view.backgroundColor = UIColor.color(r: 32, g: 34, b: 49)
     
     usernameTextField.delegate = self
     emailTextField.delegate = self
@@ -388,4 +388,11 @@ struct Settings {
   static var standardOffset: CGFloat = 12
   static var standardDoubleOffset: CGFloat = 24
   static var middleOffset: CGFloat = 16
+}
+
+
+extension UIColor {
+  static func color(r red: CGFloat, g green: CGFloat, b blue: CGFloat) -> UIColor {
+    return UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1.0)
+  }
 }

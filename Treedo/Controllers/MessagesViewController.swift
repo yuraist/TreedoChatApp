@@ -22,6 +22,12 @@ class MessagesViewController: UITableViewController {
     // Setup a Firebase database reference
     ref = Database.database().reference()
     
+    tableView.backgroundColor = UIColor.color(r: 32, g: 34, b: 49)
+    
+    navigationController?.navigationBar.barTintColor = UIColor.color(r: 15, g: 15, b: 30)
+    navigationController?.navigationBar.tintColor = UIColor.white
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+    
     // Setup a logout button
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNewMessageController))
@@ -164,6 +170,7 @@ class MessagesViewController: UITableViewController {
     
     let usernameLabel = UILabel()
     usernameLabel.text = user.username
+    usernameLabel.textColor = UIColor.white
     usernameLabel.translatesAutoresizingMaskIntoConstraints = false
     containerView.addSubview(usernameLabel)
     
