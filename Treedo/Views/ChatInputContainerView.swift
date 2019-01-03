@@ -25,7 +25,7 @@ class ChatInputContainerView: UIView, UITextFieldDelegate {
     tf.textColor = .white
     tf.keyboardAppearance = UIKeyboardAppearance.dark
     tf.translatesAutoresizingMaskIntoConstraints = false
-    tf.attributedPlaceholder = NSAttributedString(string: "Enter message...", attributes: [NSAttributedStringKey.foregroundColor : UIColor.color(r: 240, g: 240, b: 240)])
+    tf.attributedPlaceholder = NSAttributedString(string: "Enter message...", attributes: [NSAttributedString.Key.foregroundColor : UIColor.color(r: 240, g: 240, b: 240)])
     tf.delegate = self
     return tf
   }()

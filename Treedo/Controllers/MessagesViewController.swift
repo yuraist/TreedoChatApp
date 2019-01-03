@@ -26,7 +26,7 @@ class MessagesViewController: UITableViewController {
     
     navigationController?.navigationBar.barTintColor = UIColor.color(r: 15, g: 15, b: 30)
     navigationController?.navigationBar.tintColor = UIColor.white
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     
     // Setup a logout button
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
@@ -269,7 +269,7 @@ class MessagesViewController: UITableViewController {
     return true
   }
   
-  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     guard let uid = Auth.auth().currentUser?.uid else {
       return
     }

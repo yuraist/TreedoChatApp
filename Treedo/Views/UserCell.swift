@@ -69,7 +69,7 @@ class UserCell: UITableViewCell {
     }
   }
   
-  override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
     
     backgroundColor = UIColor.color(r: 32, g: 34, b: 49)

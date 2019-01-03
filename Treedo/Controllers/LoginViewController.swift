@@ -37,7 +37,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
     // Setup font changing for larger text
     let font = UIFont.boldSystemFont(ofSize: Settings.fontSize)
     if #available(iOS 11.0, *) {
-      button.titleLabel?.font = UIFontMetrics(forTextStyle: UIFontTextStyle.body).scaledFont(for: font)
+      button.titleLabel?.font = UIFontMetrics(forTextStyle: UIFont.TextStyle.body).scaledFont(for: font)
     } else {
       button.titleLabel?.font = UIFont.boldSystemFont(ofSize: Settings.fontSize)
     }
@@ -260,7 +260,10 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
   }
   
   // MARK: - UIImagePickerControllerDelegate
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
     var selectedImageFromPicker: UIImage?
     
     if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
@@ -337,7 +340,7 @@ class LoginViewController: UIViewController, UIImagePickerControllerDelegate, UI
       
       // Get the image data
       if let profileImage = self.profileImageView.image {
-        if let uploadData = UIImageJPEGRepresentation(profileImage, 0.1) {
+        if let uploadData = profileImage.jpegData(compressionQuality: 0.1) {
           // Put the data into the datastorage
           storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
             if error != nil {
@@ -398,4 +401,9 @@ extension UIColor {
   static func color(r red: CGFloat, g green: CGFloat, b blue: CGFloat) -> UIColor {
     return UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1.0)
   }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

@@ -32,7 +32,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white] as [NSAttributedStringKey : Any]
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white] as [NSAttributedString.Key : Any]
     
     collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
     collectionView?.showsVerticalScrollIndicator = false
@@ -63,8 +63,11 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     present(imagePickerController, animated: true, completion: nil)
   }
   
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    if let videoUrl = info[UIImagePickerControllerMediaURL] as? URL {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+    if let videoUrl = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as? URL {
       handleVideoSelected(forUrl: videoUrl)
     } else {
       handleImageSelected(forInfo: info)
@@ -138,7 +141,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let imageName = UUID().uuidString
     let ref = Storage.storage().reference().child("message_images").child(imageName)
     
-    if let uploadData = UIImageJPEGRepresentation(image, 0.2) {
+    if let uploadData = image.jpegData(compressionQuality: 0.2) {
       ref.putData(uploadData, metadata: nil) { metadata, error in
         if error != nil {
           print(error!)
@@ -163,7 +166,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let imageGenerator = AVAssetImageGenerator(asset: asset)
     
     do {
-      let thumbnailCGImage = try imageGenerator.copyCGImage(at: CMTimeMake(1, 60), actualTime: nil)
+      let thumbnailCGImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1, timescale: 60), actualTime: nil)
       return UIImage(cgImage: thumbnailCGImage)
     } catch let err {
       print(err)
@@ -185,7 +188,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   }
   
   func setupKeyboardObservers() {
-    NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow(notification:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow(notification:)), name: UIResponder.keyboardDidShowNotification, object: nil)
   }
   
   @objc func handleKeyboardDidShow(notification: Notification) {
@@ -196,7 +199,7 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
   }
   
   @objc func handleKeyboardWillHide(notification: NSNotification) {
-    let keyboardAnimationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as! Double
+    let keyboardAnimationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
     
     inputContainerViewBottomAnchor?.constant = 0
     UIView.animate(withDuration: keyboardAnimationDuration) {
@@ -471,4 +474,14 @@ class ChatController: UICollectionViewController, UICollectionViewDelegateFlowLa
       })
     }
   }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

@@ -1,0 +1,6 @@
+framework module Pods_Treedo {
+  umbrella header "Pods-Treedo-umbrella.h"
+
+  export *
+  module * { export * }
+}

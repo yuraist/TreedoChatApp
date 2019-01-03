@@ -15,7 +15,7 @@ class ChatMessageCell: UICollectionViewCell {
   var message: Message?
   
   let activityIndicatorView: UIActivityIndicatorView = {
-    let aiv = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    let aiv = UIActivityIndicatorView(style: .whiteLarge)
     aiv.translatesAutoresizingMaskIntoConstraints = false
     aiv.hidesWhenStopped = true
     return aiv

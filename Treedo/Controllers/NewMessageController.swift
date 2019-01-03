@@ -24,7 +24,7 @@ class NewMessageController: UITableViewController {
     
     navigationController?.navigationBar.barTintColor = UIColor.color(r: 15, g: 15, b: 30)
     navigationController?.navigationBar.tintColor = UIColor.white
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     
     // Add a cancel button
     navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
