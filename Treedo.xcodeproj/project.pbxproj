@@ -14,13 +14,13 @@
 		BE0A776C20CFDFCB002372DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0A776A20CFDFCB002372DE /* LaunchScreen.storyboard */; };
 		BE0A777420D038FD002372DE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0A777320D038FD002372DE /* LoginViewController.swift */; };
 		BE1722EB20E5338200594D64 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1722EA20E5338200594D64 /* ChatMessageCell.swift */; };
-		BE22587E20D24C600094AE49 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE22587D20D24C600094AE49 /* GoogleService-Info.plist */; };
 		BE4FD64B20D6A20F00FF4500 /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */; };
 		BE4FD64D20D6CF4800FF4500 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD64C20D6CF4800FF4500 /* User.swift */; };
 		BE4FD65320D8143B00FF4500 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65220D8143B00FF4500 /* Extensions.swift */; };
 		BE4FD65520DA5D5900FF4500 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65420DA5D5900FF4500 /* ChatController.swift */; };
 		BE4FD65720E0D57600FF4500 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65620E0D57600FF4500 /* Message.swift */; };
 		BE4FD65A20E4E8D400FF4500 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4FD65920E4E8D400FF4500 /* UserCell.swift */; };
+		BE9C5E2822BC0164006F2DF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE9C5E2722BC0164006F2DF1 /* GoogleService-Info.plist */; };
 		BEB049DB20EEA1A20085BBE0 /* ChatInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB049DA20EEA1A20085BBE0 /* ChatInputContainerView.swift */; };
 		C717ABAF669ACA081EF67E8B /* Pods_Treedo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E7ABD758109DAC12703951 /* Pods_Treedo.framework */; };
 /* End PBXBuildFile section */
@@ -38,13 +38,13 @@
 		BE0A776D20CFDFCB002372DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE0A777320D038FD002372DE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BE1722EA20E5338200594D64 /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
-		BE22587D20D24C600094AE49 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BE4FD64A20D6A20F00FF4500 /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		BE4FD64C20D6CF4800FF4500 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BE4FD65220D8143B00FF4500 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BE4FD65420DA5D5900FF4500 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		BE4FD65620E0D57600FF4500 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		BE4FD65920E4E8D400FF4500 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		BE9C5E2722BC0164006F2DF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BEB049DA20EEA1A20085BBE0 /* ChatInputContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputContainerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,14 +98,13 @@
 		BE0A776020CFDFC9002372DE /* Treedo */ = {
 			isa = PBXGroup;
 			children = (
-				BE0A776820CFDFCB002372DE /* Assets.xcassets */,
-				BE4FD64E20D6CF5F00FF4500 /* Models */,
-				BE4FD65820E4E8B000FF4500 /* Views */,
+				BE4FD64920D6549900FF4500 /* Application Delegate */,
 				BE0A777520D0399B002372DE /* Controllers */,
 				BE4FD65120D8142B00FF4500 /* Helpers */,
-				BE4FD64920D6549900FF4500 /* Application Delegate */,
-				BE0A777620D03A58002372DE /* Supporting Files */,
+				BE4FD64E20D6CF5F00FF4500 /* Models */,
 				BE4FD64820D6546400FF4500 /* Storyboards */,
+				BE0A777620D03A58002372DE /* Supporting Files */,
+				BE4FD65820E4E8B000FF4500 /* Views */,
 			);
 			path = Treedo;
 			sourceTree = "<group>";
@@ -124,7 +123,8 @@
 		BE0A777620D03A58002372DE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				BE22587D20D24C600094AE49 /* GoogleService-Info.plist */,
+				BE0A776820CFDFCB002372DE /* Assets.xcassets */,
+				BE9C5E2722BC0164006F2DF1 /* GoogleService-Info.plist */,
 				BE0A776D20CFDFCB002372DE /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -209,7 +209,7 @@
 				TargetAttributes = {
 					BE0A775D20CFDFC9002372DE = {
 						CreatedOnToolsVersion = 9.4;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -237,7 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE0A776C20CFDFCB002372DE /* LaunchScreen.storyboard in Resources */,
-				BE22587E20D24C600094AE49 /* GoogleService-Info.plist in Resources */,
+				BE9C5E2822BC0164006F2DF1 /* GoogleService-Info.plist in Resources */,
 				BE0A776920CFDFCB002372DE /* Assets.xcassets in Resources */,
 				BE0A776720CFDFC9002372DE /* Main.storyboard in Resources */,
 			);
@@ -251,23 +251,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Treedo/Pods-Treedo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Treedo/Pods-Treedo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Treedo/Pods-Treedo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Treedo/Pods-Treedo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Treedo/Pods-Treedo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CD9067D988A352568B7679F0 /* [CP] Check Pods Manifest.lock */ = {
@@ -460,7 +453,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuraist.Treedo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -480,7 +473,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuraist.Treedo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

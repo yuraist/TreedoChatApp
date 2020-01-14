@@ -17,8 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
-    UIApplication.shared.statusBarStyle = .lightContent
-    
     // Change Main.storyboard to my own view controller from code
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.makeKeyAndVisible()
